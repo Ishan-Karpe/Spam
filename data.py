@@ -29,4 +29,16 @@ def perform(classifiers, vectorizers, train_data, test_data): # classifiers and 
             string = ''
             string += classifier.__class__.__name__ + ' with ' + vectorizer.__class__.__name__ 
             # the line above adds the classifier and vectorizer to the string __class__.__name__ is the name of the class
-            print(string)
+            
+            # train the model
+            vectorize_text = vectorizer.fit_transform(train_data.v2) # v2 is the text and fit_transform is a method of the vectorizer
+            classifier.fit(vectorize_text, train_data.v1) # fit is a method of the classifier fits orginal data
+
+            # test the model
+            vectorize_text = vectorizer.transform(test_data.v2)
+            # transform is a method of the vectorizer that transforms the data
+            #fit-transform is used for training the model and transform is used for testing the model
+            score = classifier.score(vectorize_text, test_data.v1) # score is a method of the classifier that scores the data
+            string += ' scored ' + str(score)
+            print(string) # nothing is returned because the function is void
+
