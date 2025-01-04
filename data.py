@@ -42,3 +42,35 @@ def perform(classifiers, vectorizers, train_data, test_data): # classifiers and 
             string += ' scored ' + str(score)
             print(string) # nothing is returned because the function is void
 
+data = pandas.read_csv('spam.csv', encoding='latin-1') # read the data from the csv file, why in latin? 
+# because the data is in latin
+train_data = data[:4400] # 4400 is the number of rows' data that is used for training the model
+test_data = data[4400:] # 4400 is the number of rows' data that is used for testing the model, 1172 items are used for testing
+
+perform(
+    [
+        BernoulliNB(),
+        RandomForestClassifier(n_estimators=100, n_jobs=-1),
+        AdaBoostClassifier(),
+        BaggingClassifier(),
+        ExtraTreesClassifier(),
+        GradientBoostingClassifier(),
+        DecisionTreeClassifier(),
+        CalibratedClassifierCV(),
+        DummyClassifier(),
+        PassiveAggressiveClassifier(),
+        RidgeClassifier(),
+        RidgeClassifierCV(),
+        SGDClassifier(),
+        OneVsRestClassifier(SVC(kernel='linear')),
+        OneVsRestClassifier(LogisticRegression()),
+        KNeighborsClassifier()
+    ],
+    [
+        CountVectorizer(),
+        TfidfVectorizer(),
+        HashingVectorizer()
+    ],
+    train_data,
+    test_data
+)
